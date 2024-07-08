@@ -1,0 +1,85 @@
+﻿@model List<Aryarajsinh_0516_Model.ViewModel.OrderTableViewModel>
+@{
+    ViewBag.Title = "Orders List";
+    Layout = "~/Views/Shared/_LayoutPage1Supplier.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <h2>Orders List</h2>
+        </div>
+        <div class="col-md-6">
+            <form method="post" class="form-inline justify-content-end">
+                <div class="form-group mx-sm-3 mb-2">
+                    <label for="StartDate" class="sr-only">Start Date</label>
+                    <input type="date" name="StartDate" id="StartDate" value="@(ViewBag.startDate != null ? ViewBag.startDate : "2024-01-01")" class="form-control form-control-sm" />
+                </div>
+                <div class="form-group mx-sm-3 mb-2">
+                    <label for="Enddate" class="sr-only">End Date</label>
+                    <input type="date" name="Enddate" id="Enddate" value="@(ViewBag.endDate != null ? ViewBag.endDate : DateTime.Today.ToString("yyyy-MM-dd"))" class="form-control form-control-sm" />
+                </div>
+                <button type="submit" class="btn btn-sm btn-primary mb-2 m-2">Filter</button>
+                <a href="~/Supplier/Clear" class="btn btn-sm btn-primary mb-2 m-2">Clear</a>
+                @Html.ActionLink("Generate PDF", "OrdersRecordListPdf", "Supplier", new { startDate = ViewBag.startDate, endDate = ViewBag.endDate }, new { @class = "btn btn-sm btn-primary mb-2 m-2" })
+
+            </form>
+            
+    
+            <p align="right">
+             
+            </p>
+    
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total Price</th>
+                    <th>Email Id</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.ProductName</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.price</td>
+                        <td>@item.TotalPrice</td>
+                        <td>@item.EmailId</td>
+                        <td>@item.Formatteddate</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#StartDate').on('click', function () {
+            var currentDate = new Date();
+            var year = currentDate.getFullYear();
+            var month = ('0' + (currentDate.getMonth() + 1)).slice(-2); // Adjust month to be two digits
+            var day = ('0' + currentDate.getDate()).slice(-2); // Adjust day to be two digits
+            var maxDate = year + '-' + month + '-' + day;
+            $('#StartDate').attr('max', maxDate);
+        });
+
+        // Set max date initially when document is ready
+        var currentDate = new Date();
+        var year = currentDate.getFullYear();
+        var month = ('0' + (currentDate.getMonth() + 1)).slice(-2); // Adjust month to be two digits
+        var day = ('0' + currentDate.getDate()).slice(-2); // Adjust day to be two digits
+        var maxDate = year + '-' + month + '-' + day;
+        $('#StartDate').attr('max', maxDate);
+        $('#Enddate').attr('max', maxDate);
+    })
+</script>

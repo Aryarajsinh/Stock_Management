@@ -1,0 +1,38 @@
+﻿@model List<Aryarajsinh_0516_Model.ViewModel.SupplierModel>
+@{
+    ViewBag.Title = "SupplierList";
+    Layout = "~/Views/Shared/_LayoutPage1Admin.cshtml";
+}
+
+<h2>SupplierList</h2>
+
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>UserName</th>
+        <th>Email Id</th>
+        <th>Role</th>
+        <th>Total Amount</th>
+    </tr>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Username</td>
+                <td>@item.EmailId</td>
+                <td>@item.Role</td>
+                @if (item.TotalAmount > 0)
+                {
+                    <td>@item.TotalAmount</td>
+                }
+                else
+                {
+                    <td> 0</td>
+                }
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+

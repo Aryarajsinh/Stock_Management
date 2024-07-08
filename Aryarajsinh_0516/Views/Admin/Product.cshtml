@@ -1,0 +1,36 @@
+﻿@model List<Aryarajsinh_0516_Model.ViewModel.ProductModel>
+@{
+    ViewBag.Title = "Product";
+    Layout = "~/Views/Shared/_LayoutPage1Admin.cshtml";
+}
+
+<h2>Product</h2>
+
+<a href="~/Admin/AddProduct" class="btn btn-outline-dark mt-2 mb-3">Add Product</a>
+
+<table class="table table-bordered table-striped"> 
+    <tr>
+        <th>products name</th>
+        <th>description</th>
+        <th>type</th>
+        <th>quantity</th>
+        <th>price</th>
+        <th>Action</th>
+    </tr>
+    <tbody>
+        @foreach(var item in Model)
+            {
+               <tr>
+                   <td>@item.ProductName</td>
+                   <td>@item.ProductDescription</td>
+                   <td>@item.ProductType</td>
+                   <td>@item.Quantity</td>
+                   <td>@item.price</td>
+                   <td>
+                       <a href="~/Admin/EditProduct?ProductId=@item.ProductId" class="btn btn-outline-info">Edit</a>
+                       <a href="~/Admin/DeleteProduct?ProductId=@item.ProductId" class="btn btn-outline-danger">Delete</a>
+                   </td>
+               </tr>
+            }
+    </tbody>
+</table>

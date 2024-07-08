@@ -1,0 +1,82 @@
+﻿@model Aryarajsinh_0516_Model.ViewModel.DashboardModel
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_LayoutPage1Admin.cshtml";
+}
+
+<h2>Dashboard</h2>
+
+<style>
+    .dashboard-card {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+        .dashboard-card h4 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .dashboard-card .value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .dashboard-card .description {
+            font-size: 14px;
+            color: #666;
+        }
+</style>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="dashboard-card">
+                    <h4>Total Orders</h4>
+                    <div class="value">@Model.TotalOrders</div>
+                    <div class="description">Total Orders</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="dashboard-card">
+                    <h4>Total Suppliers</h4>
+                    <div class="value">@Model.TotalSupliers</div>
+                    <div class="description">Total Suppliers</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="dashboard-card">
+                    <h4>Total Product</h4>
+                    <div class="value">@Model.TotalProduct</div>
+                    <div class="description">Total Product</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="dashboard-card">
+                    <h4>Total Money Gained</h4>
+                    <div class="value">@Model.MoneyGained</div>
+                    <div class="description">Total Money Gained</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="dashboard-card">
+                    <h4>Today's Orders</h4>
+                    <div class="value">@Model.TotalTodayOrders</div>
+                    <div class="description">Today's Orders</div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="dashboard-card">
+                    <h4>Today's Gained</h4>
+                    <div class="value">@Model.TodayGained</div>
+                    <div class="description">Today's Gained</div>
+                </div>
+            </div>
+        </div>
+    </div>
+

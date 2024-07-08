@@ -1,0 +1,59 @@
+﻿@model List<Aryarajsinh_0516_Model.ViewModel.OrderTableViewModel>
+@{
+    ViewBag.Title = "OrdersRecordListPdf";
+    Layout = null;
+}
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: Arial, sans-serif;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #007bff;
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+</style>
+
+<h2>OrdersRecordListPdf</h2>
+
+<table>
+    <thead>
+        <tr>
+
+            <th>ProductName</th>
+            <th>Quantity</th>
+            <th>TotalPrice</th>
+            <th>EmailId</th>
+            <th>Price</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ProductName</td>
+                <td>@item.Quantity</td>
+                <td>@item.TotalPrice</td>
+                <td>@item.EmailId</td>
+                <td>@item.price</td>
+                <td>@item.Formatteddate</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

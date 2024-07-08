@@ -1,0 +1,184 @@
+﻿@model List<Aryarajsinh_0516_Model.ViewModel.CartModel>
+@{
+    ViewBag.Title = "OrderManagement";
+    Layout = "~/Views/Shared/_LayoutPage1Supplier.cshtml";
+}
+
+<h2>Order Management</h2>
+@if (Model != null && Model.Count != 0)
+{
+    <table class="table table-borderless table-striped">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total Price</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>
+                        <input type="hidden" value="@item.ProductId" class="dynamic" name="ProductId" />
+                        <input type="button" value="+" class="btnAdd btn btn-outline-success" data-itemid="@item.ProductId" />
+                        <span id="quantity_@item.ProductId" class="dynamic" name="Quantity" value="@item.Quantity">@item.Quantity</span>
+                        <input type="button" value="−" class="btnMinus btn btn-outline-danger" data-itemid="@item.ProductId" />
+                    </td>
+                    <td class="Item-price dynamic" name="Price">@item.Price</td>
+                    <td class="price dynamic" name="TotalPrice">@item.TotalPrice</td>
+                    <td><a href="~/Supplier/DeleteProduct?ProductId=@item.CartId" class="btn btn-outline-danger">Delete</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="card my-4">
+            <p class="fs-1 fw-bold text-dark text-center mt-3">Oops! Your Cart Empty</p>
+    </div>
+}
+
+
+
+@if (@Model != null && @Model.Count > 0)
+{
+    <div class="row">
+        <div class="col-lg-12 d-flex justify-content-end">
+            <input type="button" name="submit" id="submit" value="submit" class="btn btn-outline-info" />
+        </div>
+
+    </div>
+}
+
+
+
+<script>
+
+
+
+
+    $(document).ready(function () {
+
+
+        $('.btnAdd').on('click', function () {
+            var itemId = $(this).data('itemid');
+            var element = $(this);
+            var quantityElement = $('#quantity_' + itemId);
+            var currentQuantity = parseInt(quantityElement.text());
+            var Qunatity = parseInt(quantityElement.text())
+            var actualQuantity = parseInt(Qunatity + 1);
+            var _IncreaseQuantityModel = {
+                actualQuantity: actualQuantity,
+                itemId: itemId
+            }
+            $.ajax({
+                url: '/Supplier/IncreaseQuantity',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(_IncreaseQuantityModel),
+                success: function (data) {
+                    console.log(data);
+                    if (data.a == 1) {
+
+                        quantityElement.text(currentQuantity + 1);
+                        var price = element.closest('tr').find('.Item-price').text();
+                        var PriceElement = element.closest('tr').find('.price');
+                        var price1 = (currentQuantity + 1) * price;
+                        PriceElement.text(price1);
+                        toastr.success("Quantity is Increase ")
+                    }
+                    else {
+                        toastr.error("Quantity is not available")
+                    }
+
+                }
+            })
+
+        });
+
+        $('.btnMinus').on('click', function () {
+
+            var itemId = $(this).data('itemid');
+            var quantityElement = $('#quantity_' + itemId);
+            var currentQuantity = parseInt(quantityElement.text());
+
+            if (currentQuantity > 0) {
+                quantityElement.text(currentQuantity - 1);
+                var price = $(this).closest('tr').find('.Item-price').text();
+                var PriceElement = $(this).closest('tr').find('.price');
+                var price1 = (currentQuantity - 1) * price;
+                PriceElement.text(price1)
+                toastr.success("Item Quantity is Decreased")
+
+            }
+            else {
+                toastr.error("You Cannot Decrease After 0")
+            }
+
+
+        });
+        $(document).on('click', '#submit', function () {
+
+
+            var _OrderModelList = []
+            var Checking = 1;
+            var dynamic = document.querySelectorAll('.dynamic');
+            for (var i = 0; i < dynamic.length; i = i + 4) {
+
+                var object = {}
+                for (var j = 0; j < 4; j++) {
+
+                    var element = dynamic[i + j];
+                    if (j == 0) {
+                        var value = parseInt(element.value);
+                    }
+                    else {
+                        var value = parseInt(element.textContent);
+                    }
+                    var name = element.getAttribute('name');
+
+                    object[name] = value
+                }
+                _OrderModelList.push(object)
+            }
+
+            for (var i = 0; i < _OrderModelList.length; i++) {
+                if (_OrderModelList[i].Quantity == 0) {
+                    Checking = 1
+                    break;
+                }
+                else {
+                    Checking = 0
+                }
+            }
+
+            if (Checking != 1) {
+                console.log(_OrderModelList)
+                $.ajax({
+                    url: '/Supplier/OrderManagementAdd',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(_OrderModelList),
+                    success: function (response) {
+
+                        window.location.href = response.redirectTo;
+                        setTimeout(function () {
+                            console.log('After 3 seconds');
+                        }, 5000);
+                        toastr.success("Order Place SuccessFully");
+                    }
+
+                })
+            }
+            else {
+                toastr.error("Please Add More than 0 Quantity")
+            }
+
+        })
+    });
+</script>
